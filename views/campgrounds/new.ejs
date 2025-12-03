@@ -1,0 +1,86 @@
+<% layout("layouts/boilerplate") %>
+    <h1>Add a new campground</h1>
+    <form class="validated-form" action="/campgrounds" method="post" novalidate>
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="row py-2 align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label" for="titleInput">Title</label>
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="text" name="campground[title]" id="titleInput"
+                            placeholder="tite" required>
+                        <div class="valid-feedback">
+                            It's OK now!
+                        </div>
+                    </div>
+                </div>
+                <div class="row py-2 align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label" for="locationInput">Location</label>
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="text" name="campground[location]" id="locationInput"
+                            placeholder="location" required>
+                        <div class="valid-feedback">
+                            It's OK now!
+                        </div>
+                    </div>
+                </div>
+                <div class="row py-2 align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label" for="priceInput">Price</label>
+                    </div>
+                    <div class="col input-group">
+                        <span class="input-group-text" id="basic-addon1">€</span>
+                        <input class="form-control" type="Number" name="campground[price]" id="priceInput" 
+                            placeholder="price" required>
+                        <div class="valid-feedback">
+                            It's OK now!
+                        </div>
+                    </div>
+                </div>
+                <div class="row py-2 align-items-center">
+                    <div class="col-sm-3">
+                        <label class="form-label" for="imgInput">Image Path</label>
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="text" name="campground[image]" id="imgInput">
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <label class="form-label" for="desc">Description</label>
+                <textarea class="form-control" name="campground[description]" id="desc" cols="33" rows="5" required></textarea>
+                <div class="valid-feedback">
+                    It's OK now!
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary">Submit</button>
+        <a href="/campgrounds" class="btn btn-secondary">Cancel</a>
+    </form>
+
+    <script>
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.validated-form')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
+
+    </script>

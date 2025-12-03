@@ -1,0 +1,5 @@
+.post-comment-input {
+    display: flex;
+    align-items: flex-start; /* выравнивание по верхнему краю */
+    gap: 12px; /* расстояние между label и textarea */
+}
