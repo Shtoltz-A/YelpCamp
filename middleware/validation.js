@@ -1,6 +1,6 @@
 import ExpressError from "../utils/ExpressError.js";
 
-export const validateCampground = (schema) => {
+export const validate = (schema) => {
     return (req, res, next) => {
         const { error } = schema.validate(req.body);
         if (error) {

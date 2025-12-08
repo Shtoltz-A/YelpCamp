@@ -1,6 +1,6 @@
 <% layout("layouts/boilerplate") %>
 <h1>Edit a campground</h1>
-<form action="/campgrounds/<%= camp._id %>?_method=put" method="post">
+<form class="validated-form" action="/campgrounds/<%= camp._id %>?_method=put" method="post" novalidate>
     <div class="row align-items-center">
         <div class="col">
             <div class="row py-2 align-items-center">
@@ -9,7 +9,7 @@
                 </div>
                 <div class="col">
                     <input class="form-control" type="text" name="campground[title]" id="titleInput"
-                        value="<%= camp.title %>">
+                        value="<%= camp.title %>" required>
                 </div>
             </div>
             <div class="row py-2 align-items-center">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col">
                     <input class="form-control" type="text" name="campground[location]" id="locationInput"
-                        value="<%= camp.location %>">
+                        value="<%= camp.location %>" required>
                 </div>
             </div>
             <div class="row py-2 align-items-center">
@@ -28,7 +28,7 @@
                 <div class="col input-group">
                     <span class="input-group-text" id="basic-addon1">€</span>
                     <input class="form-control" type="Number" name="campground[price]" id="priceInput"
-                        value="<%= camp.price %>">
+                        value="<%= camp.price %>" required>
                 </div>
             </div>
             <div class="row py-2 align-items-center">
@@ -43,7 +43,7 @@
         </div>
         <div class="col">
             <label class="form-label" for="desc">Description</label>
-            <textarea class="form-control" name="campground[description]" id="desc" cols="33" rows="5"><%= camp.description %></textarea>
+            <textarea class="form-control" name="campground[description]" id="desc" cols="33" rows="5" required><%= camp.description %></textarea>
         </div>
     </div>
     <button class="btn btn-primary">Submit</button>
