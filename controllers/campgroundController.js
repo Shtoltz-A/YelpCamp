@@ -20,6 +20,7 @@ export const createCampground = async (req, res) => {
     const { campground } = req.body;
     const camp = new Campground({ ...campground });
     await camp.save();
+    req.flash("success", "The campground was successfully created!");
     res.redirect("/campgrounds")
 };
 
@@ -36,11 +37,13 @@ export const updateCampground = async (req, res) => {
     const { campground } = req.body;
     const { id } = req.params;
     await Campground.findByIdAndUpdate(id, { ...campground });
+    req.flash("success", "The campground was successfully updated!");
     res.redirect(`/campgrounds/${id}`)
 };
 
 export const deleteCampground = async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
+    req.flash("success", "The campground was successfully deleted!");
     res.redirect("/campgrounds")
 };

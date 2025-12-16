@@ -5,7 +5,7 @@ export const campgroundSchema = Joi.object({
         title: Joi.string().required(),
         location: Joi.string().required(),
         price: Joi.number().required().min(0),
-        image: Joi.string(),
+        image: Joi.string().allow(null, '').optional(),
         description: Joi.string().required()
     }).required()
 });

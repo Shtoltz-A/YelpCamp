@@ -3,9 +3,12 @@ import path from "path";
 import ejsMate from "ejs-mate";
 import dotenv from "dotenv";
 import methodOverride from "method-override";
+import session from "express-session";
+import flash from "connect-flash";
 import db from "./config/db.js";
 import homeRouter from "./routes/home.js";
-import campgroundsRouter from "./routes/campgrounds/index.js";
+import campgroundsRouter from "./routes/campgrounds.js";
+import reviewsRouter from "./routes/reviews.js";
 import ExpressError from "./utils/ExpressError.js";
 import { fileURLToPath } from "url";
 
@@ -25,8 +28,32 @@ app.use(methodOverride('_method'));
 
 db.connectDB();
 
+// session
+app.use(session({
+    name: "YelpCampSession",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 1 день
+    }
+}));
+
+// flash
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+// routes
 app.use("/", homeRouter);
 app.use("/campgrounds", campgroundsRouter);
+app.use("/campgrounds/:id/reviews", reviewsRouter);
 
 // fallback 404
 app.all("*splat", (req, res, next) => {
