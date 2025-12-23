@@ -4,12 +4,15 @@ import ejsMate from "ejs-mate";
 import dotenv from "dotenv";
 import methodOverride from "method-override";
 import session from "express-session";
+import passport from "passport";
 import flash from "connect-flash";
 import db from "./config/db.js";
 import homeRouter from "./routes/home.js";
 import campgroundsRouter from "./routes/campgrounds.js";
 import reviewsRouter from "./routes/reviews.js";
+import userRouter from "./routes/users.js";
 import ExpressError from "./utils/ExpressError.js";
+import User from "./models/User.js";
 import { fileURLToPath } from "url";
 
 dotenv.config();
@@ -35,16 +38,26 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 // 1 день
     }
 }));
 
+// passport 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // flash
 app.use(flash());
 
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
@@ -52,6 +65,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use("/", homeRouter);
+app.use("/", userRouter);
 app.use("/campgrounds", campgroundsRouter);
 app.use("/campgrounds/:id/reviews", reviewsRouter);
 
