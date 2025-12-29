@@ -20,6 +20,10 @@ const campgroundSchema = new Sch({
     image: {
         type: String
     },
+    author: {
+        type: Sch.Types.ObjectId,
+        ref: "User"
+    },
     reviews: [
         {
             type: Sch.Types.ObjectId,

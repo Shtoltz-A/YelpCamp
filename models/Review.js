@@ -9,7 +9,11 @@ const reviewSchema = new Sch({
     },
     rating: {
         type: Number
-    }
+    },
+    author: {
+        type: Sch.Types.ObjectId,
+        ref: "User"
+    },
 });
 
 reviewSchema.plugin(mongooseLeanVirtuals);

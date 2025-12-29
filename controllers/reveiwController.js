@@ -8,6 +8,7 @@ export const createReview = async (req, res) => {
     const { id } = req.params;
     const camp = await Campground.findById(id);
     const rev = new Review(review);
+    rev.author = req.user._id;
     camp.reviews.push(rev);
     await rev.save();
     await camp.save();

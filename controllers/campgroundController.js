@@ -9,7 +9,16 @@ export const getAllCampgrounds = async (req, res) => {
 
 export const getCampground = async (req, res) => {
     const { id } = req.params;
-    const camp = await Campground.findById(id).populate("reviews").lean();
+    
+    const camp = await Campground
+    .findById(id)
+    .populate({
+        path: "reviews",
+        populate: { path: "author" }
+    })
+    .populate("author")
+    .lean();
+
     if (!camp) throw new ExpressError("Campground not found", 404);
 
     res.render("campgrounds/show", { camp });
@@ -18,7 +27,7 @@ export const getCampground = async (req, res) => {
 export const createCampground = async (req, res) => {
     if (!req.body.campground) throw new ExpressError("Invalid Campground Data", 400);
     const { campground } = req.body;
-    const camp = new Campground({ ...campground });
+    const camp = new Campground({ ...campground, author: req.user._id });
     await camp.save();
     req.flash("success", "The campground was successfully created!");
     res.redirect("/campgrounds")
