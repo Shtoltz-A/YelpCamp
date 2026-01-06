@@ -7,7 +7,7 @@ import { isReviewAuthor } from "../middleware/auth.js";
 
 const router = Router({mergeParams: true});
 
-router.post("/", isLoggedIn, isReviewAuthor, validate(reviewSchema), reviewController.createReview);
+router.post("/", isLoggedIn, validate(reviewSchema), reviewController.createReview);
 router.delete("/:reviewId", isLoggedIn, isReviewAuthor, reviewController.deleteReview);
 
 export default router;

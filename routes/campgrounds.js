@@ -6,12 +6,17 @@ import { campgroundSchema } from "../schemas/schemas.js";
 
 const router = Router();
 
-router.get("/", campgroundController.getAllCampgrounds);
+router.route("/")
+    .get(campgroundController.getAllCampgrounds)
+    .post(isLoggedIn, validate(campgroundSchema), campgroundController.createCampground);
+
 router.get("/new", isLoggedIn, (req, res) => res.render("campgrounds/new"));
-router.get("/:id", campgroundController.getCampground);
+
+router.route("/:id")
+    .get(campgroundController.getCampground)
+    .put(isLoggedIn, isAuthor, validate(campgroundSchema), campgroundController.updateCampground)
+    .delete(isLoggedIn, isAuthor, campgroundController.deleteCampground);
+
 router.get("/:id/edit", isLoggedIn, isAuthor, campgroundController.getCampgroundToUpdate);
-router.post("/", isLoggedIn, validate(campgroundSchema), campgroundController.createCampground);
-router.put("/:id", isLoggedIn, isAuthor, validate(campgroundSchema), campgroundController.updateCampground);
-router.delete("/:id", isLoggedIn, isAuthor, campgroundController.deleteCampground);
 
 export default router;
